@@ -1,5 +1,7 @@
 package br.org.museu.hardware.model;
 
+import jakarta.persistence.*;
+
 @Entity
 @Table(name = "CURIOSIDADES")
 public class Curiosidade {

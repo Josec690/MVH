@@ -3,6 +3,8 @@ package br.org.museu.hardware.model;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 
+import java.util.List;
+
 @Entity
 @Table(name = "FABRICANTES")
 public class Fabricante {
