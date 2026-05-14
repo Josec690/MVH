@@ -1,5 +1,12 @@
 package br.org.museu.hardware.controller;
 
+import br.org.museu.hardware.model.Equipamento;
+import br.org.museu.hardware.repository.EquipamentoRepository;
+import org.hibernate.mapping.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/equipamentos")
 public class EquipamentoController {
@@ -9,7 +16,7 @@ public class EquipamentoController {
 
     @GetMapping
     public List<Equipamento> listarTodos() {
-        return repository.findAll();
+        return repository.listarTodos();
     }
 
     @PostMapping
