@@ -23,4 +23,12 @@ public class Imagem {
     @ManyToOne
     @JoinColumn(name = "FK_id_equipamento")
     private Equipamento equipamento;
+
+    public Long getIdImagem() {
+        return id_imagem;
+    }
+
+    public void setIdImagem(Long id_imagem) {
+        this.id_imagem = id_imagem;
+    }
 }

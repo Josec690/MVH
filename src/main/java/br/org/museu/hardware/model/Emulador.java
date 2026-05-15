@@ -22,4 +22,20 @@ public class Emulador {
     @ManyToOne
     @JoinColumn(name = "FK_id_fabricante")
     private Fabricante fabricante;
+
+    public Long getIdEmulador() {
+        return id_emulador;
+    }
+
+    public void setIdEmulador(Long id_emulador) {
+        this.id_emulador = id_emulador;
+    }
+
+    public String getNomeEmu() {
+        return nome_emu;
+    }
+
+    public void setNomeEmu(String nome_emu) {
+        this.nome_emu = nome_emu;
+    }
 }

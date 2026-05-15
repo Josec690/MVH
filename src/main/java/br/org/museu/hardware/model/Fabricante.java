@@ -26,4 +26,12 @@ public class Fabricante {
 
     @OneToMany(mappedBy = "fabricante", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Emulador> emuladores;
+
+    public Long getIdFabricante() {
+        return id_fabricante;
+    }
+
+    public void setIdFabricante(Long id_fabricante) {
+        this.id_fabricante = id_fabricante;
+    }
 }

@@ -37,4 +37,12 @@ public class Equipamento {
 
     @OneToMany(mappedBy = "equipamento", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Curiosidade> curiosidades;
+
+    public Long getIdEquipamento() {
+        return id_equipamento;
+    }
+
+    public void setIdEquipamento(Long id_equipamento) {
+        this.id_equipamento = id_equipamento;
+    }
 }

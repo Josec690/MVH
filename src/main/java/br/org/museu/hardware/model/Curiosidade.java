@@ -22,4 +22,12 @@ public class Curiosidade {
     @ManyToOne
     @JoinColumn(name = "FK_id_equipamento")
     private Equipamento equipamento;
+
+    public Long getIdCuriosidade() {
+        return id_curiosidade;
+    }
+
+    public void setIdCuriosidade(Long id_curiosidade) {
+        this.id_curiosidade = id_curiosidade;
+    }
 }

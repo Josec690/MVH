@@ -22,4 +22,28 @@ public class Fonte {
     @ManyToOne
     @JoinColumn(name = "FK_id_equipamento")
     private Equipamento equipamento;
+
+    public Long getIdFonte() {
+        return id_fonte;
+    }
+
+    public void setIdFonte(Long id_fonte) {
+        this.id_fonte = id_fonte;
+    }
+
+    public String getNomeSite() {
+        return nome_site;
+    }
+
+    public void setNomeSite(String nome_site) {
+        this.nome_site = nome_site;
+    }
+
+    public String getUrlOriginal() {
+        return url_original;
+    }
+
+    public void setUrlOriginal(String url_original) {
+        this.url_original = url_original;
+    }
 }

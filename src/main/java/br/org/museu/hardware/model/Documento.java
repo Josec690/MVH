@@ -22,4 +22,12 @@ public class Documento {
     @ManyToOne
     @JoinColumn(name = "FK_id_equipamento")
     private Equipamento equipamento;
+
+    public Long getIdDoc() {
+        return id_doc;
+    }
+
+    public void setIdDoc(Long id_doc) {
+        this.id_doc = id_doc;
+    }
 }
