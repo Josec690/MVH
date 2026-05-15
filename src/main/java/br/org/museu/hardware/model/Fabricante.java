@@ -1,10 +1,15 @@
 package br.org.museu.hardware.model;
 
 import jakarta.persistence.*;
-import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "FABRICANTES")
 public class Fabricante {
@@ -16,12 +21,9 @@ public class Fabricante {
     private String nome;
     private String pais;
 
-    // Relacionamento 1..N com EQUIPAMENTOS
-    @OneToMany(mappedBy = "fabricante", cascade = CascadeType.ALL)
-    private List<Equipamento> EQUIPAMENTOS;
+    @OneToMany(mappedBy = "fabricante", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Equipamento> equipamentos;
 
-    @OneToMany(mappedBy = "fabricante", cascade = CascadeType.ALL)
-    private List<Emulador> EMULADORES;
-
-    // Getters e Setters
+    @OneToMany(mappedBy = "fabricante", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Emulador> emuladores;
 }

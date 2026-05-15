@@ -1,7 +1,13 @@
 package br.org.museu.hardware.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "IMAGENS")
 public class Imagem {
@@ -10,13 +16,11 @@ public class Imagem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_imagem;
 
-    private String formato;   // Ex: .png, .jpg
-    private String tamanho;   // Ex: 2MB
-    private String resolucao; // Ex: 1920x1080
+    private String formato;
+    private String tamanho;
+    private String resolucao;
 
     @ManyToOne
     @JoinColumn(name = "FK_id_equipamento")
     private Equipamento equipamento;
-
-    // Getters e Setters
 }

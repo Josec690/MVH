@@ -1,7 +1,13 @@
 package br.org.museu.hardware.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "FONTES")
 public class Fonte {
@@ -16,6 +22,4 @@ public class Fonte {
     @ManyToOne
     @JoinColumn(name = "FK_id_equipamento")
     private Equipamento equipamento;
-
-    // Getters e Setters
 }

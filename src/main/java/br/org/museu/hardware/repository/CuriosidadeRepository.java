@@ -4,8 +4,10 @@ import br.org.museu.hardware.model.Curiosidade;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface CuriosidadeRepository extends JpaRepository<Curiosidade, Long> {
-    // Você pode adicionar métodos customizados depois, como:
-    // List<Curiosidade> findByEquipamentoId(Long id);
+    List<Curiosidade> findByEquipamento_IdEquipamento(Long idEquipamento);
 }
+

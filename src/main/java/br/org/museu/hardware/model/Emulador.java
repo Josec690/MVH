@@ -1,7 +1,13 @@
 package br.org.museu.hardware.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "EMULADORES")
 public class Emulador {
@@ -16,6 +22,4 @@ public class Emulador {
     @ManyToOne
     @JoinColumn(name = "FK_id_fabricante")
     private Fabricante fabricante;
-
-    // Getters e Setters
 }

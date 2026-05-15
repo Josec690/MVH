@@ -2,9 +2,14 @@ package br.org.museu.hardware.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "EQUIPAMENTOS")
 public class Equipamento {
@@ -21,13 +26,15 @@ public class Equipamento {
     @JoinColumn(name = "FK_id_fabricante")
     private Fabricante fabricante;
 
-    @OneToMany(mappedBy = "equipamento", cascade = CascadeType.ALL)
-    private List<Fonte> FONTES;
+    @OneToMany(mappedBy = "equipamento", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Fonte> fontes;
 
-    @OneToMany(mappedBy = "equipamento", cascade = CascadeType.ALL)
-    private List<Documento> ;
+    @OneToMany(mappedBy = "equipamento", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Documento> documentos;
 
-    // Outros relacionamentos como IMAGENS e  seguirão o mesmo padrão OneToMany
+    @OneToMany(mappedBy = "equipamento", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Imagem> imagens;
 
-    // Getters e Setters
+    @OneToMany(mappedBy = "equipamento", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Curiosidade> curiosidades;
 }

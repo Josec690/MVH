@@ -8,17 +8,60 @@
 </head>
 <body>
 <header>
-    <h1>Museu Virtual do Hardware</h1>
-    <p>Curadoria MSX - Protótipo inicial</p>
+    <h1>🖥️ Museu Virtual do Hardware</h1>
+    <p>Curadoria MSX - Protótipo Inicial</p>
 </header>
 
+<nav class="navbar">
+    <button onclick="mostrarSecao('equipamentos')" class="nav-btn active">Equipamentos</button>
+    <button onclick="mostrarSecao('fabricantes')" class="nav-btn">Fabricantes</button>
+    <button onclick="mostrarSecao('emuladores')" class="nav-btn">Emuladores</button>
+    <button onclick="mostrarSecao('detalhes')" class="nav-btn">Detalhes</button>
+</nav>
+
 <main>
-    <section class="card">
+    <!-- Seção de Equipamentos -->
+    <section id="equipamentos" class="secao ativa">
         <h2>Equipamentos MSX</h2>
-        <button onclick="carregarEquipamentos()">Carregar equipamentos</button>
-        <div id="equipamentos" class="grid"></div>
+        <div class="controls">
+            <input type="text" id="filtroGeracao" placeholder="Filtrar por geração (ex: MSX1, MSX2)..." class="input-filtro">
+            <button onclick="filtrarPorGeracao()" class="btn-filtro">Filtrar</button>
+            <button onclick="carregarEquipamentos()" class="btn-refresh">Recarregar</button>
+        </div>
+        <div id="equipamentos-container" class="grid"></div>
+    </section>
+
+    <!-- Seção de Fabricantes -->
+    <section id="fabricantes" class="secao">
+        <h2>Fabricantes</h2>
+        <div id="fabricantes-container" class="grid"></div>
+    </section>
+
+    <!-- Seção de Emuladores -->
+    <section id="emuladores" class="secao">
+        <h2>Emuladores MSX</h2>
+        <div id="emuladores-container" class="grid"></div>
+    </section>
+
+    <!-- Seção de Detalhes -->
+    <section id="detalhes" class="secao">
+        <h2>Detalhes do Equipamento</h2>
+        <div id="detalhes-container"></div>
     </section>
 </main>
+
+<!-- Modal para Detalhes -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="fecharModal()">&times;</span>
+        <h2 id="modal-titulo"></h2>
+        <div id="modal-corpo"></div>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2026 Museu Virtual do Hardware - Projeto Acadêmico</p>
+</footer>
 
 <script src="script.js"></script>
 </body>
