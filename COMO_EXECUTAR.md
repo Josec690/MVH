@@ -77,14 +77,23 @@ Ao abrir `http://localhost:8080`, você verá:
 
 ## 💾 Banco de Dados
 
-### H2 Console (Padrão)
-```
-URL: http://localhost:8080/h2-console
-User: sa
-Password: (deixar vazio)
+### MySQL (padrão do projeto)
+
+1. Crie o banco usando o arquivo `mysql-setup.sql` na raiz do projeto ou execute:
+```sql
+CREATE DATABASE IF NOT EXISTS museu_virtual_hardware
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
 ```
 
-### Consultar dados no H2
+2. Configure as credenciais em `src/main/resources/application.properties` ou via variáveis de ambiente:
+```bash
+set SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/museu_virtual_hardware?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+set SPRING_DATASOURCE_USERNAME=seu_usuario
+set SPRING_DATASOURCE_PASSWORD=sua_senha
+```
+
+3. Consulte os dados no MySQL com sua ferramenta preferida:
 ```sql
 SELECT * FROM EQUIPAMENTOS;
 SELECT * FROM FABRICANTES;
@@ -98,20 +107,13 @@ SELECT * FROM CURIOSIDADES;
 
 ### Em `application.properties`
 
-**H2 (Padrão - Em Memória):**
+**MySQL (produção/desenvolvimento):**
 ```properties
-spring.datasource.url=jdbc:h2:mem:db_museu
-spring.datasource.driver-class-name=org.h2.Driver
-spring.h2.console.enabled=true
-```
-
-**Para MySQL (Se quiser usar):**
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/museu_virtual_hardware
-spring.datasource.username=root
+spring.datasource.url=jdbc:mysql://localhost:3306/museu_virtual_hardware?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+spring.datasource.username=seu_usuario
 spring.datasource.password=sua_senha
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
+spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
 ```
 
 ---
@@ -158,8 +160,9 @@ mvn clean install -U
 ```
 
 ### Erro: "Database connection failed"
-- Verificar se MySQL está rodando
-- Ou usar H2 (padrão - sem configuração)
+- Verificar se o MySQL está rodando
+- Conferir URL, usuário e senha configurados
+- Criar o banco com `mysql-setup.sql` se ele ainda não existir
 
 ### Frontend não carrega dados
 - Abrir DevTools (F12)
@@ -213,13 +216,13 @@ mvn clean install -U
 R: Leia GUIA_INTEGRACAO.md - tem passo-a-passo completo
 
 **P: Preciso de MySQL?**
-R: Não, use H2 (padrão) para testes. MySQL é opcional
+R: Sim, a aplicação principal e os testes usam MySQL.
 
 **P: Como testo sem frontend?**
 R: Use cURL ou Postman para testar a API
 
 **P: Como vejo os dados no banco?**
-R: Acesse http://localhost:8080/h2-console
+R: Use um cliente MySQL, como MySQL Workbench, DBeaver ou a linha de comando.
 
 **P: Posso modificar os dados?**
 R: Sim, use POST/PUT/DELETE ou edite import.sql

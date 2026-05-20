@@ -11,7 +11,7 @@
 | Entidades Secundárias | ✅ | Imagem, Documento, Curiosidade, Fonte, Emulador |
 | Repositories | ✅ | 7 interfaces com Spring Data JPA |
 | SQL Script Seed | ✅ | import.sql com dados MSX |
-| Banco Dados (H2) | ✅ | Configurado em memória |
+| Banco Dados (MySQL) | ✅ | Configurado com suporte a variáveis de ambiente |
 | Testes Persistência | ✅ | Dados importam corretamente |
 
 ---
@@ -80,7 +80,7 @@
 | Compilação | ✅ | `mvn clean compile` |
 | API REST | ✅ | `curl http://localhost:8080/api/equipamentos` |
 | Frontend | ✅ | `http://localhost:8080` |
-| BD H2 | ✅ | `http://localhost:8080/h2-console` |
+| BD MySQL | ✅ | `mysql-setup.sql` + credenciais do MySQL |
 | Filtros | ✅ | Usar input no frontend |
 | Modal | ✅ | Clicar em "Ver Detalhes" |
 

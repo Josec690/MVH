@@ -30,7 +30,7 @@ Este documento apresenta o protótipo funcional (Mock) do **Museu Virtual do Har
 
 ✅ **Dados Mock:**
 - Script SQL com dados iniciais (fabricantes, equipamentos MSX)
-- Suporte a H2 (em memória) e MySQL
+- MySQL como banco principal e nos testes automatizados
 
 ### Status: 70% Completo
 
@@ -203,7 +203,7 @@ Antes de fazer Pull Request, verifique:
 ## 🚨 Problemas Comuns
 
 ### "A aplicação não inicia"
-- Verifique se o MySQL está rodando (ou mude para H2)
+- Verifique se o MySQL está rodando
 - Limpe o cache: `mvn clean`
 
 ### "404 em minha API"

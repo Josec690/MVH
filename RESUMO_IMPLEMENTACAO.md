@@ -20,7 +20,7 @@ Criar um protótipo funcional (Mock) com **camada de persistência, backend REST
 - ✅ **7 Repositories** com Spring Data JPA
 - ✅ **Métodos customizados** para filtros (findByGeracao, findByPais, etc)
 - ✅ **Lombok** para reduzir boilerplate (getters/setters automáticos)
-- ✅ **Suporte a H2 e MySQL** (configurável)
+- ✅ **Suporte a MySQL** (aplicação e testes)
 - ✅ **Script SQL seed** com dados mock MSX
 
 ### 2️⃣ CAMADA DE NEGÓCIO (100%)

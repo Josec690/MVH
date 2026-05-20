@@ -8,7 +8,7 @@ Este projeto implementa um protótipo funcional (Mock) do **Museu Virtual do Har
 
 - **Backend**: Spring Boot 4.0.6 + Spring Data JPA + MySQL
 - **Frontend**: HTML5, CSS3, JavaScript vanilla
-- **Banco de Dados**: MySQL (configurável, com suporte a H2 para testes)
+- **Banco de Dados**: MySQL na aplicação principal e nos testes
 - **Arquitetura**: MVC com separação em Camadas (Model, Repository, Service, Controller)
 
 ## 🏗️ Estrutura do Projeto
@@ -38,7 +38,7 @@ MVH/
 ### Pré-requisitos
 - Java 17+
 - Maven 3.6+
-- MySQL 8.0+ (opcional, usando H2 em memória por padrão)
+- MySQL 8.0+ instalado localmente ou acesso ao MySQL da faculdade
 
 ### Instalação
 
@@ -126,14 +126,7 @@ A aplicação estará disponível em: **http://localhost:8080**
 
 ## 💾 Configuração do Banco de Dados
 
-### Usando H2 (padrão - em memória)
-```properties
-# application.properties (já configurado)
-spring.datasource.url=jdbc:h2:mem:db_museu
-spring.datasource.driver-class-name=org.h2.Driver
-```
-
-### Mudar para MySQL
+### MySQL (padrão da aplicação)
 
 1. **Instale MySQL** e crie um banco:
    ```sql
@@ -142,14 +135,21 @@ spring.datasource.driver-class-name=org.h2.Driver
 
 2. **Atualize `application.properties`**:
    ```properties
-   spring.datasource.url=jdbc:mysql://localhost:3306/museu_virtual_hardware
-   spring.datasource.username=root
+   spring.datasource.url=jdbc:mysql://localhost:3306/museu_virtual_hardware?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+   spring.datasource.username=seu_usuario
    spring.datasource.password=sua_senha
    spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-   spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
+   spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
    ```
 
 3. **Reinicie a aplicação** - as tabelas serão criadas automaticamente
+
+4. **Para credenciais da faculdade**, prefira variáveis de ambiente:
+   ```bash
+   set SPRING_DATASOURCE_URL=jdbc:mysql://servidor:3306/museu_virtual_hardware?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+   set SPRING_DATASOURCE_USERNAME=seu_usuario
+   set SPRING_DATASOURCE_PASSWORD=sua_senha
+   ```
 
 ## 🧪 Testando a API
 
