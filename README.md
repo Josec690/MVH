@@ -1,272 +1,295 @@
 # Museu Virtual do Hardware - MSX
 
-Projeto acadêmico de um museu virtual interativo para documentar e apresentar hardwares clássicos, iniciando com o **MSX**.
+Projeto academico desenvolvido como um museu virtual para catalogar e apresentar informacoes sobre hardwares classicos, com foco inicial em equipamentos da linha MSX.
 
-## 📋 Visão Geral
+A aplicacao combina uma API REST em Spring Boot com uma interface web simples em HTML, CSS e JavaScript vanilla.
 
-Este projeto implementa um protótipo funcional (Mock) do **Museu Virtual do Hardware** com:
+## Tecnologias utilizadas
 
-- **Backend**: Spring Boot 4.0.6 + Spring Data JPA + MySQL
-- **Frontend**: HTML5, CSS3, JavaScript vanilla
-- **Banco de Dados**: MySQL na aplicação principal e nos testes
-- **Arquitetura**: MVC com separação em Camadas (Model, Repository, Service, Controller)
+- Java 17
+- Spring Boot 4.0.6
+- Spring Web MVC
+- Spring Data JPA
+- Hibernate
+- MySQL
+- Maven
+- Lombok
+- HTML5, CSS3 e JavaScript
 
-## 🏗️ Estrutura do Projeto
+## Padrao de projeto utilizado
 
+O projeto utiliza o padrao MVC em camadas, comum em aplicacoes Spring Boot.
+
+No MVC, a responsabilidade da aplicacao e dividida entre:
+
+- Model: representa as entidades do dominio e o mapeamento das tabelas do banco.
+- View: representa a interface visual acessada pelo usuario.
+- Controller: recebe as requisicoes HTTP e devolve as respostas da API.
+
+Alem do MVC, o projeto tambem usa uma separacao em camadas para organizar melhor a regra de negocio e o acesso aos dados:
+
+- Controller: expoe os endpoints REST e trata as entradas HTTP.
+- Service: concentra as regras de negocio, validacoes e operacoes principais.
+- Repository: faz a comunicacao com o banco por meio do Spring Data JPA.
+- Model: contem as entidades JPA que representam as tabelas.
+- Resources/static: contem a interface web da aplicacao.
+
+Fluxo principal da aplicacao:
+
+```text
+Usuario / Frontend
+        |
+        v
+Controller REST
+        |
+        v
+Service
+        |
+        v
+Repository
+        |
+        v
+Banco de Dados MySQL
 ```
+
+Esse formato facilita manutencao, testes e evolucao do projeto, porque cada camada tem uma responsabilidade clara.
+
+## Estrutura do projeto
+
+```text
 MVH/
-├── src/
-│   ├── main/
-│   │   ├── java/br/org/museu/hardware/
-│   │   │   ├── controller/          # Endpoints REST
-│   │   │   ├── model/               # Entidades JPA
-│   │   │   ├── repository/          # Acesso a dados (Spring Data JPA)
-│   │   │   ├── service/             # Lógica de negócio
-│   │   │   └── MuseuVirtualHardwareApplication.java
-│   │   ├── resources/
-│   │   │   ├── static/              # Frontend (HTML, CSS, JS)
-│   │   │   ├── application.properties
-│   │   │   └── import.sql           # Seed de dados
-│   │   └── test/
-│   └── .mvn/
-├── pom.xml                          # Dependências Maven
-└── README.md
+|-- .mvn/                         # Configuracoes do Maven Wrapper
+|-- src/
+|   |-- main/
+|   |   |-- java/
+|   |   |   `-- br/org/museu/hardware/
+|   |   |       |-- controller/    # Controllers REST da aplicacao
+|   |   |       |-- model/         # Entidades JPA do dominio
+|   |   |       |-- repository/    # Repositories Spring Data JPA
+|   |   |       |-- service/       # Regras de negocio e validacoes
+|   |   |       |-- GlobalExceptionHandler.java
+|   |   |       `-- MuseuVirtualHardwareApplication.java
+|   |   `-- resources/
+|   |       |-- static/            # Frontend: HTML, CSS e JavaScript
+|   |       |   |-- index.html
+|   |       |   |-- script.js
+|   |       |   `-- style.css
+|   |       |-- application.properties
+|   |       `-- import.sql         # Dados iniciais da aplicacao
+|   `-- test/
+|       |-- java/                  # Testes automatizados
+|       `-- resources/
+|           `-- application.properties
+|-- mysql-setup.sql                # Script auxiliar para criar banco e usuario
+|-- pom.xml                        # Dependencias e configuracao Maven
+|-- mvnw
+|-- mvnw.cmd
+`-- README.md
 ```
 
-## 🔧 Configuração Rápida
+## Principais pacotes
 
-### Pré-requisitos
-- Java 17+
-- Maven 3.6+
-- MySQL 8.0+ instalado localmente ou acesso ao MySQL da faculdade
+### `controller`
 
-### Instalação
+Contem os endpoints REST da aplicacao:
 
-1. **Clonar o repositório**
-   ```bash
-   git clone https://github.com/seu-usuario/museu-virtual-hardware.git
-   cd MVH
-   ```
+- `EquipamentoController`
+- `FabricanteController`
+- `ImagemController`
+- `DocumentoController`
+- `CuriosidadeController`
+- `FonteController`
+- `EmuladorController`
 
-2. **Instalar dependências**
-   ```bash
-   mvn install
-   ```
+### `service`
 
-3. **Compilar o projeto**
-   ```bash
-   mvn clean compile
-   ```
+Contem a camada de regra de negocio. E nela que ficam validacoes, buscas, criacoes, atualizacoes e exclusoes antes de acessar o banco.
 
-4. **Executar a aplicação**
-   ```bash
-   mvn spring-boot:run
-   ```
+### `repository`
 
-A aplicação estará disponível em: **http://localhost:8080**
+Contem interfaces que estendem os recursos do Spring Data JPA para acessar o MySQL sem precisar escrever SQL manual para operacoes basicas.
 
-## 📚 API REST
+### `model`
+
+Contem as entidades principais do sistema:
+
+- `Equipamento`
+- `Fabricante`
+- `Imagem`
+- `Documento`
+- `Curiosidade`
+- `Fonte`
+- `Emulador`
+
+## Funcionalidades
+
+- Cadastro e consulta de equipamentos MSX.
+- Cadastro e consulta de fabricantes.
+- Listagem de imagens, documentos, curiosidades e fontes ligadas aos equipamentos.
+- Listagem de emuladores ligados aos fabricantes.
+- Filtros por geracao, fabricante, pais e equipamento.
+- Interface web responsiva em `src/main/resources/static`.
+- Tratamento global de excecoes com `GlobalExceptionHandler`.
+- Carga inicial de dados com `import.sql`.
+
+## Endpoints da API
 
 ### Equipamentos
-- `GET /api/equipamentos` - Listar todos os equipamentos
-- `GET /api/equipamentos/{id}` - Obter equipamento por ID
-- `GET /api/equipamentos/geracao/{geracao}` - Filtrar por geração
-- `GET /api/equipamentos/fabricante/{idFabricante}` - Filtrar por fabricante
-- `POST /api/equipamentos` - Criar novo equipamento
-- `PUT /api/equipamentos/{id}` - Atualizar equipamento
-- `DELETE /api/equipamentos/{id}` - Deletar equipamento
+
+```http
+GET    /api/equipamentos
+GET    /api/equipamentos/{id}
+GET    /api/equipamentos/geracao/{geracao}
+GET    /api/equipamentos/fabricante/{idFabricante}
+POST   /api/equipamentos
+PUT    /api/equipamentos/{id}
+DELETE /api/equipamentos/{id}
+```
 
 ### Fabricantes
-- `GET /api/fabricantes` - Listar todos
-- `GET /api/fabricantes/{id}` - Obter por ID
-- `GET /api/fabricantes/pais/{pais}` - Filtrar por país
-- `POST /api/fabricantes` - Criar
-- `PUT /api/fabricantes/{id}` - Atualizar
-- `DELETE /api/fabricantes/{id}` - Deletar
+
+```http
+GET    /api/fabricantes
+GET    /api/fabricantes/{id}
+GET    /api/fabricantes/pais/{pais}
+POST   /api/fabricantes
+PUT    /api/fabricantes/{id}
+DELETE /api/fabricantes/{id}
+```
 
 ### Imagens
-- `GET /api/imagens` - Listar todas
-- `GET /api/imagens/{id}` - Obter por ID
-- `GET /api/imagens/equipamento/{idEquipamento}` - Listar por equipamento
-- `POST /api/imagens` - Criar
-- `PUT /api/imagens/{id}` - Atualizar
-- `DELETE /api/imagens/{id}` - Deletar
+
+```http
+GET    /api/imagens
+GET    /api/imagens/{id}
+GET    /api/imagens/equipamento/{idEquipamento}
+POST   /api/imagens
+PUT    /api/imagens/{id}
+DELETE /api/imagens/{id}
+```
 
 ### Documentos
-- `GET /api/documentos` - Listar todos
-- `GET /api/documentos/{id}` - Obter por ID
-- `GET /api/documentos/equipamento/{idEquipamento}` - Listar por equipamento
-- `POST /api/documentos` - Criar
-- `PUT /api/documentos/{id}` - Atualizar
-- `DELETE /api/documentos/{id}` - Deletar
+
+```http
+GET    /api/documentos
+GET    /api/documentos/{id}
+GET    /api/documentos/equipamento/{idEquipamento}
+POST   /api/documentos
+PUT    /api/documentos/{id}
+DELETE /api/documentos/{id}
+```
 
 ### Curiosidades
-- `GET /api/curiosidades` - Listar todas
-- `GET /api/curiosidades/{id}` - Obter por ID
-- `GET /api/curiosidades/equipamento/{idEquipamento}` - Listar por equipamento
-- `POST /api/curiosidades` - Criar
-- `PUT /api/curiosidades/{id}` - Atualizar
-- `DELETE /api/curiosidades/{id}` - Deletar
+
+```http
+GET    /api/curiosidades
+GET    /api/curiosidades/{id}
+GET    /api/curiosidades/equipamento/{idEquipamento}
+POST   /api/curiosidades
+PUT    /api/curiosidades/{id}
+DELETE /api/curiosidades/{id}
+```
 
 ### Fontes
-- `GET /api/fontes` - Listar todas
-- `GET /api/fontes/{id}` - Obter por ID
-- `GET /api/fontes/equipamento/{idEquipamento}` - Listar por equipamento
-- `POST /api/fontes` - Criar
-- `PUT /api/fontes/{id}` - Atualizar
-- `DELETE /api/fontes/{id}` - Deletar
+
+```http
+GET    /api/fontes
+GET    /api/fontes/{id}
+GET    /api/fontes/equipamento/{idEquipamento}
+POST   /api/fontes
+PUT    /api/fontes/{id}
+DELETE /api/fontes/{id}
+```
 
 ### Emuladores
-- `GET /api/emuladores` - Listar todos
-- `GET /api/emuladores/{id}` - Obter por ID
-- `GET /api/emuladores/fabricante/{idFabricante}` - Listar por fabricante
-- `POST /api/emuladores` - Criar
-- `PUT /api/emuladores/{id}` - Atualizar
-- `DELETE /api/emuladores/{id}` - Deletar
 
-## 💾 Configuração do Banco de Dados
+```http
+GET    /api/emuladores
+GET    /api/emuladores/{id}
+GET    /api/emuladores/fabricante/{idFabricante}
+POST   /api/emuladores
+PUT    /api/emuladores/{id}
+DELETE /api/emuladores/{id}
+```
 
-### MySQL (padrão da aplicação)
+## Como executar
 
-1. **Instale MySQL** e crie um banco:
-   ```sql
-   CREATE DATABASE museu_virtual_hardware;
-   ```
+### Pre-requisitos
 
-2. **Atualize `application.properties`**:
-   ```properties
-   spring.datasource.url=jdbc:mysql://localhost:3306/museu_virtual_hardware?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
-   spring.datasource.username=seu_usuario
-   spring.datasource.password=sua_senha
-   spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-   spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
-   ```
+- Java 17 ou superior
+- MySQL 8 ou superior
+- Maven ou Maven Wrapper do proprio projeto
 
-3. **Reinicie a aplicação** - as tabelas serão criadas automaticamente
+### Configurar o banco
 
-4. **Para credenciais da faculdade**, prefira variáveis de ambiente:
-   ```bash
-   set SPRING_DATASOURCE_URL=jdbc:mysql://servidor:3306/museu_virtual_hardware?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-   set SPRING_DATASOURCE_USERNAME=seu_usuario
-   set SPRING_DATASOURCE_PASSWORD=sua_senha
-   ```
+O projeto usa MySQL por padrao. A aplicacao tenta criar o banco automaticamente quando a URL contem `createDatabaseIfNotExist=true`.
 
-## 🧪 Testando a API
+Configuracao padrao em `src/main/resources/application.properties`:
 
-### Via Postman/Insomnia
+```properties
+spring.datasource.url=jdbc:mysql://127.0.0.1:3306/museu_virtual_hardware?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+spring.datasource.username=root
+spring.datasource.password=
+spring.jpa.hibernate.ddl-auto=update
+```
 
-1. Inicie a aplicação
-2. Importe a coleção de endpoints acima
-3. Teste cada rota
+Tambem existe o script `mysql-setup.sql`, que cria o banco `museu_virtual_hardware` e um usuario auxiliar.
 
-### Via cURL
+### Executar com Maven Wrapper
+
+No Windows:
 
 ```bash
-# Listar todos os equipamentos
-curl http://localhost:8080/api/equipamentos
-
-# Criar novo equipamento
-curl -X POST http://localhost:8080/api/equipamentos \
-  -H "Content-Type: application/json" \
-  -d '{
-    "modelo": "Expert XP-800",
-    "ano": 1985,
-    "geracao": "MSX1",
-    "fabricante": {"id_fabricante": 1}
-  }'
+mvnw.cmd spring-boot:run
 ```
 
-## 🎨 Frontend
+No Linux ou macOS:
 
-O frontend está localizado em `src/main/resources/static/`
-
-- **index.html** - Interface principal
-- **script.js** - Lógica de interação
-- **style.css** - Estilos responsivos
-
-### Funcionalidades do Frontend
-
-- ✅ Listagem de equipamentos MSX
-- ✅ Filtro por geração
-- ✅ Visualização de detalhes em modal
-- ✅ Listagem de fabricantes
-- ✅ Listagem de emuladores
-- ✅ Exibição de curiosidades
-- ✅ Links para fontes de informação
-- ✅ Design responsivo (mobile-friendly)
-
-## 📝 Exemplo de Dados
-
-O arquivo `import.sql` contém dados iniciais:
-
-```sql
--- Fabricantes
-INSERT INTO fabricantes (nome, pais) VALUES ('Gradiente', 'Brasil');
-INSERT INTO fabricantes (nome, pais) VALUES ('Sharp', 'Japão');
-
--- Equipamentos
-INSERT INTO equipamentos (modelo, ano, geracao, FK_id_fabricante) 
-VALUES ('Expert XP-800', 1985, 'MSX1', 1);
-
--- Curiosidades
-INSERT INTO curiosidades (descricao, FK_id_equipamento) 
-VALUES ('O Expert foi o microcomputador mais popular do Brasil.', 1);
+```bash
+./mvnw spring-boot:run
 ```
 
-## 🔄 Fluxo de Desenvolvimento
+Depois de iniciar, acesse:
 
-### Semana 1 ✅ (Infraestrutura e Mapeamento)
-- ✅ Configuração do ambiente Maven
-- ✅ Criação de todas as entidades JPA
-- ✅ Implementação dos Repositories
-- ✅ Script SQL seed
-
-### Semana 2 🔄 (Lógica de Negócio e API)
-- ✅ Services implementados com validações
-- ✅ Controllers completos (CRUD)
-- ✅ Endpoints para filtros
-- ⏳ Tratamento de exceções global
-- ⏳ Testes com Postman
-
-### Semana 3 (Frontend e Integração)
-- ✅ Frontend melhorado e responsivo
-- ⏳ Testes end-to-end
-- ⏳ Documentação completa
-- ⏳ Preparação para merge com colaboradores
-
-## 🚀 Próximas Melhorias
-
-- [ ] Adicionar camada de tratamento global de exceções (@ControllerAdvice)
-- [ ] Implementar autenticação JWT
-- [ ] Adicionar testes unitários com JUnit
-- [ ] Implementar paginação nos endpoints
-- [ ] Adicionar upload de imagens
-- [ ] Criar documentação OpenAPI/Swagger
-- [ ] Implement cache com Redis
-- [ ] Deploy em containerização (Docker)
-
-## 👥 Estrutura para Colaboração
-
-Quando colaboradores adicionarem novos hardwares, a estrutura será:
-
-```
-MVH/
-├── src/main/java/br/org/museu/hardware/
-│   ├── msx/                  # Curadoria MSX (você)
-│   ├── megadrive/            # Curadoria Mega Drive (colaborador 1)
-│   ├── apple2/               # Curadoria Apple II (colaborador 2)
-│   └── shared/               # Código compartilhado
+```text
+http://localhost:8080
 ```
 
-## 📄 Licença
+## Testes
 
-Projeto educacional - Faculdade/Universidade
+Para executar os testes:
 
-## 📞 Contato
+```bash
+mvnw.cmd test
+```
 
-Para dúvidas sobre o projeto, abra uma issue no GitHub.
+Os testes usam uma configuracao propria em `src/test/resources/application.properties`, apontando para o banco `museu_virtual_hardware_test`.
 
----
+## Frontend
 
-**Desenvolvido com ❤️ para o projeto Museu Virtual do Hardware**
+O frontend fica em:
 
+```text
+src/main/resources/static/
+```
+
+Arquivos principais:
+
+- `index.html`: estrutura da pagina.
+- `style.css`: estilos visuais e responsividade.
+- `script.js`: consumo da API e interacoes da tela.
+
+Como os arquivos estao dentro de `resources/static`, o Spring Boot serve a interface automaticamente na raiz da aplicacao.
+
+## Dados iniciais
+
+O arquivo `src/main/resources/import.sql` insere dados de exemplo, incluindo:
+
+- Fabricantes Gradiente e Sharp.
+- Equipamentos Expert XP-800 e Hotbit HB-8000.
+- Imagem, documento, curiosidade e fonte relacionados a equipamento.
+- Emuladores fMSX e BlueMSX.
+
+## Resumo
+
+Este projeto foi estruturado com Spring Boot seguindo MVC em camadas. A API REST fica responsavel pela comunicacao com o frontend, a camada de service concentra as regras de negocio, os repositories acessam o MySQL e as models representam o dominio do museu virtual.
