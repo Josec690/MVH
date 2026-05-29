@@ -14,6 +14,14 @@ import java.util.List;
 @Table(name = "EQUIPAMENTOS")
 public class Equipamento {
 
+    // Evita recursão infinita (Equipamento -> Fabricante -> Equipamentos -> Fabricante -> ...)
+    // quando serializa para JSON.
+    // Obs.: ajuste se você preferir usar DTOs depois.
+
+
+    // Evita loop/estouro de profundidade no JSON quando o relacionamento é serializado
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_equipamento;
@@ -27,16 +35,21 @@ public class Equipamento {
     private Fabricante fabricante;
 
     @OneToMany(mappedBy = "equipamento", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Fonte> fontes;
 
     @OneToMany(mappedBy = "equipamento", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Documento> documentos;
 
     @OneToMany(mappedBy = "equipamento", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Imagem> imagens;
 
     @OneToMany(mappedBy = "equipamento", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Curiosidade> curiosidades;
+
 
     public Long getIdEquipamento() {
         return id_equipamento;

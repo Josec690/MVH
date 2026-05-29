@@ -1,5 +1,6 @@
 package br.org.museu.hardware.service;
 
+import br.org.museu.hardware.dto.FabricanteDTO;
 import br.org.museu.hardware.model.Fabricante;
 import br.org.museu.hardware.repository.FabricanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 
 @Service
 public class FabricanteService {
@@ -72,4 +75,19 @@ public class FabricanteService {
             throw new IllegalArgumentException("País do fabricante é obrigatório");
         }
     }
+
+    public List<FabricanteDTO> toDTOs(List<Fabricante> fabricantes) {
+        if (fabricantes == null) {
+            return List.of();
+        }
+
+        return fabricantes.stream().map(f -> {
+            FabricanteDTO dto = new FabricanteDTO();
+            dto.setId_fabricante(f.getIdFabricante());
+            dto.setNome(f.getNome());
+            dto.setPais(f.getPais());
+            return dto;
+        }).collect(Collectors.toList());
+    }
 }
+

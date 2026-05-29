@@ -1,6 +1,8 @@
 package br.org.museu.hardware.controller;
 
+import br.org.museu.hardware.dto.ImagemDTO;
 import br.org.museu.hardware.model.Imagem;
+
 import br.org.museu.hardware.service.ImagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,23 +21,49 @@ public class ImagemController {
     private ImagemService service;
 
     @GetMapping
-    public ResponseEntity<List<Imagem>> listarTodas() {
+    public ResponseEntity<List<ImagemDTO>> listarTodas() {
         List<Imagem> imagens = service.listarTodas();
-        return ResponseEntity.ok(imagens);
+        List<ImagemDTO> dtos = imagens.stream().map(i -> {
+            ImagemDTO dto = new ImagemDTO();
+            dto.setId_imagem(i.getIdImagem());
+            dto.setFormato(i.getFormato());
+            dto.setTamanho(i.getTamanho());
+            dto.setResolucao(i.getResolucao());
+            return dto;
+        }).toList();
+        return ResponseEntity.ok(dtos);
     }
 
+
     @GetMapping("/{id}")
-    public ResponseEntity<Imagem> obterPorId(@PathVariable Long id) {
+    public ResponseEntity<ImagemDTO> obterPorId(@PathVariable Long id) {
         Optional<Imagem> imagem = service.obterPorId(id);
-        return imagem.map(ResponseEntity::ok)
+        return imagem.map(i -> {
+                    ImagemDTO dto = new ImagemDTO();
+                    dto.setId_imagem(i.getIdImagem());
+                    dto.setFormato(i.getFormato());
+                    dto.setTamanho(i.getTamanho());
+                    dto.setResolucao(i.getResolucao());
+                    return ResponseEntity.ok(dto);
+                })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+
     @GetMapping("/equipamento/{idEquipamento}")
-    public ResponseEntity<List<Imagem>> listarPorEquipamento(@PathVariable Long idEquipamento) {
+    public ResponseEntity<List<ImagemDTO>> listarPorEquipamento(@PathVariable Long idEquipamento) {
         List<Imagem> imagens = service.listarPorEquipamento(idEquipamento);
-        return ResponseEntity.ok(imagens);
+        List<ImagemDTO> dtos = imagens.stream().map(i -> {
+            ImagemDTO dto = new ImagemDTO();
+            dto.setId_imagem(i.getIdImagem());
+            dto.setFormato(i.getFormato());
+            dto.setTamanho(i.getTamanho());
+            dto.setResolucao(i.getResolucao());
+            return dto;
+        }).toList();
+        return ResponseEntity.ok(dtos);
     }
+
 
     @PostMapping
     public ResponseEntity<Imagem> criar(@RequestBody Imagem imagem) {

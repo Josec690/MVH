@@ -1,6 +1,8 @@
 package br.org.museu.hardware.controller;
 
+import br.org.museu.hardware.dto.CuriosidadeDTO;
 import br.org.museu.hardware.model.Curiosidade;
+
 import br.org.museu.hardware.service.CuriosidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,23 +21,43 @@ public class CuriosidadeController {
     private CuriosidadeService service;
 
     @GetMapping
-    public ResponseEntity<List<Curiosidade>> listarTodas() {
+    public ResponseEntity<List<CuriosidadeDTO>> listarTodas() {
         List<Curiosidade> curiosidades = service.listarTodas();
-        return ResponseEntity.ok(curiosidades);
+        List<CuriosidadeDTO> dtos = curiosidades.stream().map(c -> {
+            CuriosidadeDTO dto = new CuriosidadeDTO();
+            dto.setId_curiosidade(c.getIdCuriosidade());
+            dto.setDescricao(c.getDescricao());
+            return dto;
+        }).toList();
+        return ResponseEntity.ok(dtos);
     }
 
+
     @GetMapping("/{id}")
-    public ResponseEntity<Curiosidade> obterPorId(@PathVariable Long id) {
+    public ResponseEntity<CuriosidadeDTO> obterPorId(@PathVariable Long id) {
         Optional<Curiosidade> curiosidade = service.obterPorId(id);
-        return curiosidade.map(ResponseEntity::ok)
+        return curiosidade.map(c -> {
+                    CuriosidadeDTO dto = new CuriosidadeDTO();
+                    dto.setId_curiosidade(c.getIdCuriosidade());
+                    dto.setDescricao(c.getDescricao());
+                    return ResponseEntity.ok(dto);
+                })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+
     @GetMapping("/equipamento/{idEquipamento}")
-    public ResponseEntity<List<Curiosidade>> listarPorEquipamento(@PathVariable Long idEquipamento) {
+    public ResponseEntity<List<CuriosidadeDTO>> listarPorEquipamento(@PathVariable Long idEquipamento) {
         List<Curiosidade> curiosidades = service.listarPorEquipamento(idEquipamento);
-        return ResponseEntity.ok(curiosidades);
+        List<CuriosidadeDTO> dtos = curiosidades.stream().map(c -> {
+            CuriosidadeDTO dto = new CuriosidadeDTO();
+            dto.setId_curiosidade(c.getIdCuriosidade());
+            dto.setDescricao(c.getDescricao());
+            return dto;
+        }).toList();
+        return ResponseEntity.ok(dtos);
     }
+
 
     @PostMapping
     public ResponseEntity<Curiosidade> criar(@RequestBody Curiosidade curiosidade) {

@@ -21,6 +21,7 @@ public class Emulador {
 
     @ManyToOne
     @JoinColumn(name = "FK_id_fabricante")
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Fabricante fabricante;
 
     public Long getIdEmulador() {

@@ -1,12 +1,13 @@
 const API_URL = 'http://localhost:8080/api';
 
 // Função para mostrar/ocultar seções
-function mostrarSecao(secaoId) {
+function mostrarSecao(secaoId, botaoAtivo) {
     document.querySelectorAll('.secao').forEach(s => s.classList.remove('ativa'));
     document.getElementById(secaoId).classList.add('ativa');
 
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    event.target.classList.add('active');
+    if (botaoAtivo) botaoAtivo.classList.add('active');
+
 
     if (secaoId === 'equipamentos') carregarEquipamentos();
     if (secaoId === 'fabricantes') carregarFabricantes();
@@ -170,10 +171,30 @@ async function abrirModalDetalhes(equipamentoId) {
                                 <strong>Formato:</strong> ${img.formato} | 
                                 <strong>Tamanho:</strong> ${img.tamanho} | 
                                 <strong>Resolução:</strong> ${img.resolucao}
+                                
+                                <!-- 
+                                  Observação: o banco hoje guarda apenas metadados (formato/tamanho/resolucao).
+                                  Para renderizar de fato, é necessário ter URL/arquivo (ex: campo 'url').
+                                  Por enquanto mostramos um placeholder.
+                                -->
+                                <div class="imagem-placeholder" style="margin-top:8px;">
+                                    <span>Exemplo (imagem genérica):</span>
+                                    <img
+                                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Computer_icon_green.svg/256px-Computer_icon_green.svg.png"
+                                        alt="Imagem exemplo"
+                                        style="max-width:160px; width:100%; height:auto; display:block; margin-top:6px; border-radius:6px;"
+                                    />
+                                </div>
+                                <div class="imagem-src">
+                                    <small>
+                                        Se você adicionar no backend um campo URL da imagem (ex: <code>url</code>), basta retornar no endpoint e trocar aqui para: <code><img src="${img.url}"></code>.
+                                    </small>
+                                </div>
                             </li>
                         `).join('')}
                     </ul>
                 ` : ''}
+
 
                 ${curiosidades && curiosidades.length > 0 ? `
                     <h4>Curiosidades</h4>
@@ -217,3 +238,13 @@ window.onclick = function(event) {
 
 // Carregar equipamentos ao inicializar
 document.addEventListener('DOMContentLoaded', carregarEquipamentos);
+
+// Botão de recarregar (caso você queira usar sem inline onclick)
+const btnRecarregar = document.querySelector('button.btn-refresh');
+if (btnRecarregar) {
+    btnRecarregar.addEventListener('click', (e) => {
+        e.preventDefault();
+        carregarEquipamentos();
+    });
+}
+

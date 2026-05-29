@@ -1,6 +1,8 @@
 package br.org.museu.hardware.controller;
 
+import br.org.museu.hardware.dto.DocumentoDTO;
 import br.org.museu.hardware.model.Documento;
+
 import br.org.museu.hardware.service.DocumentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,23 +21,46 @@ public class DocumentoController {
     private DocumentoService service;
 
     @GetMapping
-    public ResponseEntity<List<Documento>> listarTodos() {
+    public ResponseEntity<List<DocumentoDTO>> listarTodos() {
         List<Documento> documentos = service.listarTodos();
-        return ResponseEntity.ok(documentos);
+        List<DocumentoDTO> dtos = documentos.stream().map(d -> {
+            DocumentoDTO dto = new DocumentoDTO();
+            dto.setId_doc(d.getIdDoc());
+            dto.setTitulo(d.getTitulo());
+            dto.setUrl(d.getUrl());
+            return dto;
+        }).toList();
+        return ResponseEntity.ok(dtos);
     }
 
+
     @GetMapping("/{id}")
-    public ResponseEntity<Documento> obterPorId(@PathVariable Long id) {
+    public ResponseEntity<DocumentoDTO> obterPorId(@PathVariable Long id) {
         Optional<Documento> documento = service.obterPorId(id);
-        return documento.map(ResponseEntity::ok)
+        return documento.map(d -> {
+                    DocumentoDTO dto = new DocumentoDTO();
+                    dto.setId_doc(d.getIdDoc());
+                    dto.setTitulo(d.getTitulo());
+                    dto.setUrl(d.getUrl());
+                    return ResponseEntity.ok(dto);
+                })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+
     @GetMapping("/equipamento/{idEquipamento}")
-    public ResponseEntity<List<Documento>> listarPorEquipamento(@PathVariable Long idEquipamento) {
+    public ResponseEntity<List<DocumentoDTO>> listarPorEquipamento(@PathVariable Long idEquipamento) {
         List<Documento> documentos = service.listarPorEquipamento(idEquipamento);
-        return ResponseEntity.ok(documentos);
+        List<DocumentoDTO> dtos = documentos.stream().map(d -> {
+            DocumentoDTO dto = new DocumentoDTO();
+            dto.setId_doc(d.getIdDoc());
+            dto.setTitulo(d.getTitulo());
+            dto.setUrl(d.getUrl());
+            return dto;
+        }).toList();
+        return ResponseEntity.ok(dtos);
     }
+
 
     @PostMapping
     public ResponseEntity<Documento> criar(@RequestBody Documento documento) {

@@ -21,6 +21,7 @@ public class Fonte {
 
     @ManyToOne
     @JoinColumn(name = "FK_id_equipamento")
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Equipamento equipamento;
 
     public Long getIdFonte() {
