@@ -2,7 +2,6 @@ package br.org.museu.hardware.controller;
 
 import br.org.museu.hardware.dto.DocumentoDTO;
 import br.org.museu.hardware.model.Documento;
-
 import br.org.museu.hardware.service.DocumentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,61 +21,42 @@ public class DocumentoController {
 
     @GetMapping
     public ResponseEntity<List<DocumentoDTO>> listarTodos() {
-        List<Documento> documentos = service.listarTodos();
-        List<DocumentoDTO> dtos = documentos.stream().map(d -> {
-            DocumentoDTO dto = new DocumentoDTO();
-            dto.setId_doc(d.getIdDoc());
-            dto.setTitulo(d.getTitulo());
-            dto.setUrl(d.getUrl());
-            return dto;
-        }).toList();
+        List<DocumentoDTO> dtos = service.listarTodos().stream()
+                .map(this::toDTO)
+                .toList();
         return ResponseEntity.ok(dtos);
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<DocumentoDTO> obterPorId(@PathVariable Long id) {
         Optional<Documento> documento = service.obterPorId(id);
-        return documento.map(d -> {
-                    DocumentoDTO dto = new DocumentoDTO();
-                    dto.setId_doc(d.getIdDoc());
-                    dto.setTitulo(d.getTitulo());
-                    dto.setUrl(d.getUrl());
-                    return ResponseEntity.ok(dto);
-                })
+        return documento.map(d -> ResponseEntity.ok(toDTO(d)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-
     @GetMapping("/equipamento/{idEquipamento}")
     public ResponseEntity<List<DocumentoDTO>> listarPorEquipamento(@PathVariable Long idEquipamento) {
-        List<Documento> documentos = service.listarPorEquipamento(idEquipamento);
-        List<DocumentoDTO> dtos = documentos.stream().map(d -> {
-            DocumentoDTO dto = new DocumentoDTO();
-            dto.setId_doc(d.getIdDoc());
-            dto.setTitulo(d.getTitulo());
-            dto.setUrl(d.getUrl());
-            return dto;
-        }).toList();
+        List<DocumentoDTO> dtos = service.listarPorEquipamento(idEquipamento).stream()
+                .map(this::toDTO)
+                .toList();
         return ResponseEntity.ok(dtos);
     }
 
-
     @PostMapping
-    public ResponseEntity<Documento> criar(@RequestBody Documento documento) {
+    public ResponseEntity<DocumentoDTO> criar(@RequestBody DocumentoDTO dto) {
         try {
-            Documento criado = service.salvar(documento);
-            return ResponseEntity.status(HttpStatus.CREATED).body(criado);
+            Documento criado = service.salvar(toEntity(dto), dto.getIdEquipamento());
+            return ResponseEntity.status(HttpStatus.CREATED).body(toDTO(criado));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Documento> atualizar(@PathVariable Long id, @RequestBody Documento documento) {
+    public ResponseEntity<DocumentoDTO> atualizar(@PathVariable Long id, @RequestBody DocumentoDTO dto) {
         try {
-            Documento atualizado = service.atualizar(id, documento);
-            return ResponseEntity.ok(atualizado);
+            Documento atualizado = service.atualizar(id, toEntity(dto), dto.getIdEquipamento());
+            return ResponseEntity.ok(toDTO(atualizado));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }
@@ -86,5 +66,23 @@ public class DocumentoController {
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         service.deletar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    private DocumentoDTO toDTO(Documento documento) {
+        DocumentoDTO dto = new DocumentoDTO();
+        dto.setId_doc(documento.getIdDoc());
+        dto.setTitulo(documento.getTitulo());
+        dto.setUrl(documento.getUrl());
+        if (documento.getEquipamento() != null) {
+            dto.setIdEquipamento(documento.getEquipamento().getIdEquipamento());
+        }
+        return dto;
+    }
+
+    private Documento toEntity(DocumentoDTO dto) {
+        Documento documento = new Documento();
+        documento.setTitulo(dto.getTitulo());
+        documento.setUrl(dto.getUrl());
+        return documento;
     }
 }

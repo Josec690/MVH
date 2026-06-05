@@ -19,6 +19,7 @@ public class Imagem {
     private String formato;
     private String tamanho;
     private String resolucao;
+    private String url;
 
     @ManyToOne
     @JoinColumn(name = "FK_id_equipamento")

@@ -116,12 +116,25 @@ async function attachImagemIfAny(eq){
         const resp = await fetch(`${API_URL}/imagens/equipamento/${id}`);
         if(!resp.ok) return;
         const imgs = await resp.json();
-        if(!imgs || imgs.length === 0) return;
-        const first = imgs[0];
-        const card = document.querySelector(`.glass-card[data-id='${id}']`);
-        if(card){
-            const imgEl = card.querySelector('img');
-            if(imgEl && first.url) imgEl.src = first.url;
+        let imgUrl = null;
+        if(imgs && imgs.length > 0){
+            const first = imgs[0];
+            imgUrl = first.url || first.link || first.path || null;
+        } else {
+            // fallback mapping for known equipment or when API has no images
+            const modelo = (eq.modelo || '').toString().toLowerCase();
+            if(modelo.includes('hotbit') || modelo.includes('hb-8000') || modelo.includes('hb8000') || id == 2){
+                imgUrl = '/images/hotbit_hb8000.jpg';
+            } else if(modelo.includes('expert') || modelo.includes('xp-800')){
+                imgUrl = '/images/MSX-Expert-XP800.jpg';
+            }
+        }
+        if(imgUrl){
+            const card = document.querySelector(`.glass-card[data-id='${id}']`);
+            if(card){
+                const imgEl = card.querySelector('img');
+                if(imgEl) imgEl.src = imgUrl;
+            }
         }
     }catch(e){ /* ignora */ }
 }
@@ -236,10 +249,33 @@ document.addEventListener('DOMContentLoaded', ()=>{
             } else if(txt.includes('emul')){
                 carregarEmuladores();
             } else if(txt.includes('detal')){
-                // abrir detalhes do primeiro equipamento como atalho
+                // abrir seletor pequeno para escolher qual equipamento mostrar
                 fetch(`${API_URL}/equipamentos`).then(r=>r.ok? r.json(): Promise.reject()).then(list=>{
-                    if(list && list.length>0){ const id = list[0].idEquipamento || list[0].id_equipamento || list[0].id; abrirModalDetalhes(id); }
-                }).catch(()=>{ alert('Nenhum equipamento disponível para mostrar detalhes.'); });
+                    if(!list || list.length===0){ alert('Nenhum equipamento disponível.'); return; }
+                    // overlay pequeno
+                    const existing = document.getElementById('msx-select-overlay'); if(existing) existing.remove();
+                    const overlay = document.createElement('div'); overlay.id='msx-select-overlay'; overlay.style.position='fixed'; overlay.style.inset='0'; overlay.style.background='rgba(2,6,23,0.6)'; overlay.style.display='flex'; overlay.style.alignItems='center'; overlay.style.justifyContent='center'; overlay.style.zIndex='4000';
+                    overlay.addEventListener('click', (ev)=>{ if(ev.target===overlay) overlay.remove(); });
+
+                    const modal = document.createElement('div'); modal.style.width='min(520px, 92%)'; modal.style.borderRadius='12px'; modal.style.padding='16px'; modal.style.background='rgba(12,14,20,0.96)'; modal.style.border='1px solid rgba(210,187,255,0.06)'; modal.style.boxShadow='0 12px 40px rgba(0,0,0,0.6)';
+
+                    const title = document.createElement('h3'); title.textContent='Escolha um equipamento'; title.style.margin='0 0 8px 0'; modal.appendChild(title);
+                    const select = document.createElement('select'); select.style.width='100%'; select.style.padding='8px'; select.style.marginBottom='12px'; select.style.borderRadius='8px'; select.style.background='#0b1326'; select.style.color='#dae2fd';
+                    list.forEach(eq => { const id = eq.idEquipamento || eq.id_equipamento || eq.id; const opt = document.createElement('option'); opt.value = id; opt.textContent = `${eq.modelo || ('#'+id)} (${eq.geracao||'N/A'})`; select.appendChild(opt); });
+                    modal.appendChild(select);
+
+                    const btnRow = document.createElement('div'); btnRow.style.display='flex'; btnRow.style.gap='8px'; btnRow.style.justifyContent='flex-end';
+                    const btnCancel = document.createElement('button'); btnCancel.textContent='Cancelar'; btnCancel.className='btn'; btnCancel.style.background='transparent'; btnCancel.style.border='1px solid rgba(255,255,255,0.06)'; btnCancel.style.color='#dae2fd'; btnCancel.style.padding='8px 12px'; btnCancel.style.borderRadius='8px';
+                    btnCancel.addEventListener('click', ()=> overlay.remove());
+                    const btnOpen = document.createElement('button'); btnOpen.textContent='Abrir'; btnOpen.className='btn'; btnOpen.style.background='linear-gradient(90deg,#7c3aed,#4cd7f6)'; btnOpen.style.color='#041226'; btnOpen.style.border='none'; btnOpen.style.padding='8px 12px'; btnOpen.style.borderRadius='8px';
+                    btnOpen.addEventListener('click', ()=>{
+                        const sel = select.value; if(sel) { overlay.remove(); abrirModalDetalhes(sel); }
+                    });
+                    btnRow.appendChild(btnCancel); btnRow.appendChild(btnOpen);
+                    modal.appendChild(btnRow);
+
+                    overlay.appendChild(modal); document.body.appendChild(overlay);
+                }).catch(()=>{ alert('Erro ao recuperar equipamentos para seleção.'); });
             }
         });
     });

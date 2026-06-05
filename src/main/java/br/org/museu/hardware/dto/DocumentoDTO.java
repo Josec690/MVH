@@ -4,6 +4,7 @@ public class DocumentoDTO {
     private Long id_doc;
     private String titulo;
     private String url;
+    private Long idEquipamento;
 
     public Long getId_doc() {
         return id_doc;
@@ -27,6 +28,14 @@ public class DocumentoDTO {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Long getIdEquipamento() {
+        return idEquipamento;
+    }
+
+    public void setIdEquipamento(Long idEquipamento) {
+        this.idEquipamento = idEquipamento;
     }
 }
 

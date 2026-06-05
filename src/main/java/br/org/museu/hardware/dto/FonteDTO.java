@@ -4,6 +4,7 @@ public class FonteDTO {
     private Long id_fonte;
     private String nome_site;
     private String url_original;
+    private Long idEquipamento;
 
     public Long getId_fonte() {
         return id_fonte;
@@ -27,6 +28,14 @@ public class FonteDTO {
 
     public void setUrl_original(String url_original) {
         this.url_original = url_original;
+    }
+
+    public Long getIdEquipamento() {
+        return idEquipamento;
+    }
+
+    public void setIdEquipamento(Long idEquipamento) {
+        this.idEquipamento = idEquipamento;
     }
 }
 

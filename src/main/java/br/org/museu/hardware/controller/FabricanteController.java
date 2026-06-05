@@ -29,7 +29,7 @@ public class FabricanteController {
     @GetMapping("/{id}")
     public ResponseEntity<FabricanteDTO> obterPorId(@PathVariable Long id) {
         Optional<Fabricante> fabricante = service.obterPorId(id);
-        return fabricante.map(ResponseEntity::ok)
+        return fabricante.map(f -> ResponseEntity.ok(toDTO(f)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -71,5 +71,13 @@ public ResponseEntity<FabricanteDTO> atualizar(@PathVariable Long id, @RequestBo
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         service.deletar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    private FabricanteDTO toDTO(Fabricante fabricante) {
+        FabricanteDTO dto = new FabricanteDTO();
+        dto.setId_fabricante(fabricante.getIdFabricante());
+        dto.setNome(fabricante.getNome());
+        dto.setPais(fabricante.getPais());
+        return dto;
     }
 }

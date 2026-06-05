@@ -5,6 +5,8 @@ public class ImagemDTO {
     private String formato;
     private String tamanho;
     private String resolucao;
+    private String url;
+    private Long idEquipamento;
 
     public Long getId_imagem() {
         return id_imagem;
@@ -36,6 +38,22 @@ public class ImagemDTO {
 
     public void setResolucao(String resolucao) {
         this.resolucao = resolucao;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Long getIdEquipamento() {
+        return idEquipamento;
+    }
+
+    public void setIdEquipamento(Long idEquipamento) {
+        this.idEquipamento = idEquipamento;
     }
 }
 
