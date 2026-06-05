@@ -45,10 +45,10 @@ header h1 { font-size: 2rem; }
 
 /* Modal dinamico (criado pelo script quando necessário) */
 #msx-modal-overlay {
-    position: fixed; inset:0; background: rgba(2,6,23,0.6); display:flex; align-items:center; justify-content:center; z-index:2000;
+    position: fixed; inset:0; background: rgba(2,6,23,0.9); backdrop-filter: blur(6px); display:flex; align-items:center; justify-content:center; z-index:3000;
 }
 #msx-modal {
-    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+    background: rgba(10,12,20,0.96);
     border-radius: 1rem;
     padding: 1.25rem;
     width: min(900px, 96%);
