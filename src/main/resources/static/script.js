@@ -35,6 +35,32 @@ function criarCardEquipamento(eq){
     `;
 }
 
+// Card para fabricante
+function criarCardFabricante(fab){
+    const id = fab.id_fabricante || fab.idFabricante || fab.id || '';
+    const nome = fab.nome || fab.nome_fabricante || '—';
+    const pais = fab.pais || '—';
+    return `
+    <div class="glass-card rounded-2xl p-6" data-id-fab="${id}">
+      <h3 class="font-headline-lg mb-2">${nome}</h3>
+      <p class="font-body-lg">País: <strong>${pais}</strong></p>
+    </div>
+    `;
+}
+
+// Card para emulador
+function criarCardEmulador(e){
+    const id = e.id || '';
+    const nome = e.nome_emu || e.nome || '—';
+    const versao = e.versao || '—';
+    return `
+    <div class="glass-card rounded-2xl p-6" data-id-emu="${id}">
+      <h3 class="font-headline-lg mb-2">${nome}</h3>
+      <p class="font-body-lg">Versão: <strong>${versao}</strong></p>
+    </div>
+    `;
+}
+
 async function carregarEquipamentos(){
     const container = document.getElementById('equipamentos-grid');
     if(!container) return;
@@ -55,6 +81,32 @@ async function carregarEquipamentos(){
         console.error(err);
         container.innerHTML = '<p class="erro">Falha ao carregar equipamentos.</p>';
     }
+}
+
+async function carregarFabricantes(){
+    const container = document.getElementById('equipamentos-grid');
+    if(!container) return;
+    container.innerHTML = '<p class="carregando">Carregando fabricantes...</p>';
+    try{
+        const resp = await fetch(`${API_URL}/fabricantes`);
+        if(!resp.ok) throw new Error('Erro ao buscar fabricantes');
+        const dados = await resp.json();
+        if(!dados || dados.length === 0){ container.innerHTML = '<p class="aviso">Nenhum fabricante encontrado.</p>'; return; }
+        container.innerHTML = dados.map(criarCardFabricante).join('');
+    }catch(err){ console.error(err); container.innerHTML = '<p class="erro">Falha ao carregar fabricantes.</p>'; }
+}
+
+async function carregarEmuladores(){
+    const container = document.getElementById('equipamentos-grid');
+    if(!container) return;
+    container.innerHTML = '<p class="carregando">Carregando emuladores...</p>';
+    try{
+        const resp = await fetch(`${API_URL}/emuladores`);
+        if(!resp.ok) throw new Error('Erro ao buscar emuladores');
+        const dados = await resp.json();
+        if(!dados || dados.length === 0){ container.innerHTML = '<p class="aviso">Nenhum emulador encontrado.</p>'; return; }
+        container.innerHTML = dados.map(criarCardEmulador).join('');
+    }catch(err){ console.error(err); container.innerHTML = '<p class="erro">Falha ao carregar emuladores.</p>'; }
 }
 
 async function attachImagemIfAny(eq){
@@ -96,10 +148,10 @@ async function filtrarPorGeracao(){
 async function abrirModalDetalhes(equipamentoId){
     const overlayExists = document.getElementById('msx-modal-overlay');
     if(overlayExists) overlayExists.remove();
-    const overlay = document.createElement('div'); overlay.id='msx-modal-overlay'; overlay.style.position='fixed'; overlay.style.inset='0'; overlay.style.background='rgba(2,6,23,0.6)'; overlay.style.display='flex'; overlay.style.alignItems='center'; overlay.style.justifyContent='center'; overlay.style.zIndex='2000';
+    const overlay = document.createElement('div'); overlay.id='msx-modal-overlay'; overlay.style.position='fixed'; overlay.style.inset='0'; overlay.style.background='rgba(2,6,23,0.9)'; overlay.style.backdropFilter='blur(6px)'; overlay.style.display='flex'; overlay.style.alignItems='center'; overlay.style.justifyContent='center'; overlay.style.zIndex='3000';
     overlay.addEventListener('click',(e)=>{ if(e.target===overlay) overlay.remove(); });
 
-    const modal = document.createElement('div'); modal.id='msx-modal'; modal.style.width='min(900px,96%)'; modal.style.maxHeight='86vh'; modal.style.overflow='auto'; modal.style.borderRadius='1rem'; modal.style.padding='1rem'; modal.style.background='linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02))';
+    const modal = document.createElement('div'); modal.id='msx-modal'; modal.style.width='min(900px,96%)'; modal.style.maxHeight='86vh'; modal.style.overflow='auto'; modal.style.borderRadius='1rem'; modal.style.padding='1rem'; modal.style.background='rgba(10,12,20,0.96)'; modal.style.border='1px solid rgba(210,187,255,0.06)';
 
     const close = document.createElement('button'); close.className='close-btn'; close.innerHTML='✕'; close.style.float='right'; close.style.margin='0'; close.addEventListener('click',()=>overlay.remove());
     modal.appendChild(close);
@@ -170,4 +222,25 @@ document.addEventListener('DOMContentLoaded', ()=>{
     if(btnFiltrar) btnFiltrar.addEventListener('click', (e)=>{ e.preventDefault(); filtrarPorGeracao(); });
     if(input) input.addEventListener('keyup', (e)=>{ if(e.key==='Enter') filtrarPorGeracao(); });
     if(btnRecarregar) btnRecarregar.addEventListener('click', (e)=>{ e.preventDefault(); if(input) input.value=''; carregarEquipamentos(); });
+
+    // Nav header handlers (Equipamentos, Fabricantes, Emuladores, Detalhes)
+    const navLinks = Array.from(document.querySelectorAll('header nav a'));
+    navLinks.forEach(a=>{
+        const txt = (a.textContent||'').trim().toLowerCase();
+        a.addEventListener('click', (e)=>{
+            e.preventDefault();
+            if(txt.includes('equip') || txt.includes('equipamentos')){
+                carregarEquipamentos();
+            } else if(txt.includes('fabric')){
+                carregarFabricantes();
+            } else if(txt.includes('emul')){
+                carregarEmuladores();
+            } else if(txt.includes('detal')){
+                // abrir detalhes do primeiro equipamento como atalho
+                fetch(`${API_URL}/equipamentos`).then(r=>r.ok? r.json(): Promise.reject()).then(list=>{
+                    if(list && list.length>0){ const id = list[0].idEquipamento || list[0].id_equipamento || list[0].id; abrirModalDetalhes(id); }
+                }).catch(()=>{ alert('Nenhum equipamento disponível para mostrar detalhes.'); });
+            }
+        });
+    });
 });
