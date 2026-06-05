@@ -1,68 +1,294 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Museu Virtual do Hardware - MSX</title>
-    <link rel="stylesheet" href="style.css" />
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MSX Museum - Museu Virtual do Hardware</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary": "#003640",
+                    "on-surface-variant": "#ccc3d8",
+                    "on-surface": "#dae2fd",
+                    "primary-fixed-dim": "#d2bbff",
+                    "inverse-primary": "#732ee4",
+                    "tertiary-fixed-dim": "#ffafd3",
+                    "on-primary": "#3f008e",
+                    "on-primary-fixed": "#25005a",
+                    "on-primary-fixed-variant": "#5a00c6",
+                    "on-error": "#690005",
+                    "error": "#ffb4ab",
+                    "background": "#0b1326",
+                    "tertiary-fixed": "#ffd8e7",
+                    "on-secondary-fixed-variant": "#004e5c",
+                    "surface-container": "#171f33",
+                    "error-container": "#93000a",
+                    "on-tertiary-fixed": "#3d0026",
+                    "surface": "#0b1326",
+                    "surface-container-high": "#222a3d",
+                    "on-primary-container": "#ede0ff",
+                    "secondary-fixed": "#acedff",
+                    "surface-container-lowest": "#060e20",
+                    "outline-variant": "#4a4455",
+                    "secondary-container": "#03b5d3",
+                    "primary": "#d2bbff",
+                    "on-secondary-container": "#00424e",
+                    "tertiary": "#ffafd3",
+                    "primary-fixed": "#eaddff",
+                    "on-secondary-fixed": "#001f26",
+                    "secondary": "#4cd7f6",
+                    "on-error-container": "#ffdad6",
+                    "primary-container": "#7c3aed",
+                    "surface-bright": "#31394d",
+                    "surface-variant": "#2d3449",
+                    "on-tertiary-container": "#ffdce9",
+                    "tertiary-container": "#ae397b",
+                    "on-tertiary-fixed-variant": "#85145a",
+                    "surface-dim": "#0b1326",
+                    "on-background": "#dae2fd",
+                    "surface-tint": "#d2bbff",
+                    "outline": "#958da1",
+                    "inverse-surface": "#dae2fd",
+                    "on-tertiary": "#620040",
+                    "surface-container-highest": "#2d3449",
+                    "inverse-on-surface": "#283044",
+                    "secondary-fixed-dim": "#4cd7f6",
+                    "surface-container-low": "#131b2e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "base": "8px",
+                    "margin-desktop": "40px",
+                    "gutter": "24px",
+                    "container-max": "1200px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "title-md": ["Inter"],
+                    "label-sm": ["JetBrains Mono"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "title-md": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "1.5", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background: radial-gradient(circle at top left, #1e1b4b 0%, #0f172a 50%, #0b1326 100%);
+            min-height: 100vh;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 30px rgba(210, 187, 255, 0.1);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
 </head>
-<body>
-<header>
-    <h1>🖥️ Museu Virtual do Hardware</h1>
-    <p>Protótipo Inicial</p>
-</header>
-
-<nav class="navbar">
-<button onclick="mostrarSecao('equipamentos', this)" class="nav-btn active">Equipamentos</button>
-    <button onclick="mostrarSecao('fabricantes', this)" class="nav-btn">Fabricantes</button>
-    <button onclick="mostrarSecao('emuladores', this)" class="nav-btn">Emuladores</button>
-    <button onclick="mostrarSecao('detalhes', this)" class="nav-btn">Detalhes</button>
-</nav>
-
-<main>
-    <!-- Seção de Equipamentos -->
-    <section id="equipamentos" class="secao ativa">
-        <h2>Equipamentos MSX</h2>
-        <div class="controls">
-            <input type="text" id="filtroGeracao" placeholder="Filtrar por geração (ex: MSX1, MSX2)..." class="input-filtro">
-            <button onclick="filtrarPorGeracao()" class="btn-filtro">Filtrar</button>
-            <button onclick="carregarEquipamentos()" class="btn-refresh">Recarregar</button>
-        </div>
-        <div id="equipamentos-container" class="grid"></div>
-    </section>
-
-    <!-- Seção de Fabricantes -->
-    <section id="fabricantes" class="secao">
-        <h2>Fabricantes</h2>
-        <div id="fabricantes-container" class="grid"></div>
-    </section>
-
-    <!-- Seção de Emuladores -->
-    <section id="emuladores" class="secao">
-        <h2>Emuladores MSX</h2>
-        <div id="emuladores-container" class="grid"></div>
-    </section>
-
-    <!-- Seção de Detalhes -->
-    <section id="detalhes" class="secao">
-        <h2>Detalhes do Equipamento</h2>
-        <div id="detalhes-container"></div>
-    </section>
-</main>
-
-<!-- Modal para Detalhes -->
-<div id="modal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="fecharModal()">&times;</span>
-        <h2 id="modal-titulo"></h2>
-        <div id="modal-corpo"></div>
-    </div>
+<body class="bg-background text-on-background selection:bg-primary/30">
+<!-- TopNavBar -->
+<header class="bg-surface/40 backdrop-blur-xl dark:bg-surface-container-low/60 border-b border-outline-variant/20 shadow-2xl shadow-primary/10 docked full-width top-0 sticky z-50">
+<nav class="flex flex-col md:flex-row justify-between items-center w-full px-margin-desktop py-base max-w-container-max mx-auto gap-gutter">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">desktop_windows</span>
+<span class="font-display-lg text-title-md font-extrabold text-on-surface tracking-tight">MSX Museum</span>
 </div>
-
-<footer>
-    <p>&copy; 2026 Museu Virtual do Hardware - Projeto Acadêmico</p>
+<div class="flex flex-wrap items-center gap-3">
+<a class="bg-gradient-to-r from-primary to-secondary text-on-primary rounded-full px-6 py-2 shadow-lg shadow-primary/40 font-title-md text-title-md transition-all active:opacity-80 scale-95 md:scale-100" href="#">Equipamentos</a>
+<a class="bg-surface/20 backdrop-blur-md border border-white/10 text-on-surface-variant hover:text-on-surface rounded-full px-6 py-2 transition-all font-title-md text-title-md hover:scale-105 duration-300" href="#">Fabricantes</a>
+<a class="bg-surface/20 backdrop-blur-md border border-white/10 text-on-surface-variant hover:text-on-surface rounded-full px-6 py-2 transition-all font-title-md text-title-md hover:scale-105 duration-300" href="#">Emuladores</a>
+<a class="bg-surface/20 backdrop-blur-md border border-white/10 text-on-surface-variant hover:text-on-surface rounded-full px-6 py-2 transition-all font-title-md text-title-md hover:scale-105 duration-300" href="#">Detalhes</a>
+</div>
+</nav>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<!-- Hero Section -->
+<section class="mb-16 text-center md:text-left relative">
+<div class="absolute -top-24 -left-24 w-64 h-64 bg-primary/20 blur-[120px] rounded-full pointer-events-none"></div>
+<h1 class="font-display-lg text-display-lg md:text-6xl mb-6 bg-clip-text text-transparent bg-gradient-to-r from-on-surface to-primary">
+                Equipamentos MSX
+            </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl leading-relaxed">
+                Explore a era de ouro da computação pessoal através do nosso acervo virtual. Preservando a história, a engenharia e o legado dos sistemas que definiram uma geração de entusiastas e programadores.
+            </p>
+</section>
+<!-- Search & Filter Bar -->
+<section class="mb-12">
+<div class="flex flex-col md:flex-row gap-4">
+<div class="relative flex-1 group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-secondary transition-colors">search</span>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-high/40 backdrop-blur-md border border-outline-variant/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:border-secondary text-on-surface placeholder:text-outline transition-all" placeholder="Filtrar por geração (ex: MSX1, MSX2)..." type="text"/>
+</div>
+<div class="flex gap-4">
+<button class="flex items-center gap-2 bg-secondary-container text-on-secondary-container px-8 py-4 rounded-xl font-title-md hover:bg-secondary-container/80 transition-all active:scale-95 shadow-lg shadow-secondary/10">
+<span class="material-symbols-outlined">filter_list</span>
+                        Filtrar
+                    </button>
+<button class="flex items-center gap-2 bg-surface-variant/40 border border-outline-variant/30 text-on-surface px-8 py-4 rounded-xl font-title-md hover:bg-surface-variant/60 transition-all active:scale-95">
+<span class="material-symbols-outlined">refresh</span>
+                        Recarregar
+                    </button>
+</div>
+</div>
+</section>
+<!-- Equipment Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Card 1: Expert XP-800 -->
+<div class="glass-card rounded-3xl overflow-hidden flex flex-col transition-all duration-300 group">
+<div class="h-48 overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A vintage 1980s personal computer keyboard and hardware setup in a stylized dark cinematic setting with glowing neon purple and cyan highlights. The lighting is low-key, emphasizing the sleek industrial design and retro computing aesthetic. Soft bokeh in the background creates depth, with a futuristic glassmorphism feel that blends retro-tech with modern UI elegance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7XFDViOTRe8zdPPL242KV9ZmU4alQG1plsj0mEm3EcbMTrpOnpFRbw07uMKQxYaUTSgEhm2-31TcjsdwDplp_zgc6ElD4oPI6ttBHcWnIKaXepVNrRj6wHoJ_r7w-B41M_uAJOfDJs-EbuOCHeD2_IzK3MAZk3nvplgnoV9sM885HOUHzKY0p4zGi2lGIQZXvr4uhKAQvnAbI4ux4wl2tDViPpHWdyFXeGrGL4I6J4m4hLiPv5Hy_8Vj1k_LGjOdKEjdvLXAH51E"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest to-transparent opacity-60"></div>
+<span class="absolute top-4 right-4 bg-primary/20 backdrop-blur-md text-primary px-3 py-1 rounded-full font-label-sm text-label-sm border border-primary/30">MSX1</span>
+</div>
+<div class="p-8 flex flex-col flex-1">
+<h3 class="font-headline-lg text-headline-lg text-on-surface mb-4">Expert XP-800</h3>
+<div class="space-y-3 mb-8">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline text-sm">calendar_today</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Ano: <span class="text-on-surface font-bold">1985</span></span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline text-sm">precision_manufacturing</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Fabricante: <span class="text-on-surface font-bold text-primary">Gradiente</span></span>
+</div>
+</div>
+<div class="mt-auto">
+<a class="flex items-center justify-center gap-2 w-full py-4 border border-outline-variant/30 rounded-xl text-on-surface hover:bg-white/10 hover:border-white/40 transition-all font-title-md group/btn" href="#">
+                            Ver Detalhes
+                            <span class="material-symbols-outlined text-sm group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Card 2: Hotbit HB-8000 -->
+<div class="glass-card rounded-3xl overflow-hidden flex flex-col transition-all duration-300 group">
+<div class="h-48 overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Detailed macro shot of vintage internal circuitry and microchips with luminous copper traces and glowing electronic components. The color palette features deep blues and electric cyan lighting that evokes a sophisticated technological atmosphere. The style is hyper-realistic yet artistically lit to fit a modern digital museum aesthetic, emphasizing the intricate beauty of 1980s hardware." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCo-MjNmyy_kY-M-bfiGpelwVXzA8yP6mhvBvd8amvNgppK8C79QezVV5GYgSUQJcZazZJgNePYXLZJDzOup9-zehAbkxik1yZ_6b85Wf9a0KcUZLKSxUO3HDOOB2P_CrGzhMdR_CUoymfrg3ebhqF5fERWVDUFRKbNc_kY_zuDz_7wWQx-bOQ5a4CscWGuw2-sN2AdB-bT79nkkvASRUWPA8RNztKTMNvdlIREqlH_sKNfjbDPFsQbJmKrtchLf6XDvWccCsEWBWg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest to-transparent opacity-60"></div>
+<span class="absolute top-4 right-4 bg-primary/20 backdrop-blur-md text-primary px-3 py-1 rounded-full font-label-sm text-label-sm border border-primary/30">MSX1</span>
+</div>
+<div class="p-8 flex flex-col flex-1">
+<h3 class="font-headline-lg text-headline-lg text-on-surface mb-4">Hotbit HB-8000</h3>
+<div class="space-y-3 mb-8">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline text-sm">calendar_today</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Ano: <span class="text-on-surface font-bold">1985</span></span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline text-sm">precision_manufacturing</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Fabricante: <span class="text-on-surface font-bold text-secondary">Sharp</span></span>
+</div>
+</div>
+<div class="mt-auto">
+<a class="flex items-center justify-center gap-2 w-full py-4 border border-outline-variant/30 rounded-xl text-on-surface hover:bg-white/10 hover:border-white/40 transition-all font-title-md group/btn" href="#">
+                            Ver Detalhes
+                            <span class="material-symbols-outlined text-sm group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Card 3: MSX Turbo R -->
+<div class="glass-card rounded-3xl overflow-hidden flex flex-col transition-all duration-300 group lg:col-span-1">
+<div class="h-48 overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A futuristic presentation of a high-tech computer workstation in a dark room with vibrant violet and magenta backlighting. The scene includes glowing monitors and high-end hardware, symbolizing the peak of 8-bit evolution. The lighting is moody and cinematic, with a clean professional focus on the sleek lines of the technology, perfectly matching a premium museum curation style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqOc0quzHFN5PsxxMUEmV2mKJJI9BtZIsk2OAtiA2W7ynFneSogJJ8g4tXh33LAI48awI4iZqZFwzlr1vfFYXb0gwKVkwqQOK0RSzWqnABLaD8lPE54347h4xG2KJ5WhQYTme8kGR2khZWpF0MGBawWwvJUOt9iq4fViO_-LjhXcbb7uaX3ZELfuUxk7kTRBaaXiQk4tjE7RqykBbXtDuC4PpDmNhL4UX1w88H5cnV1ajpB4T_w2n23qceZjA-PD_M1RZ4mrOcMeE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest to-transparent opacity-60"></div>
+<span class="absolute top-4 right-4 bg-tertiary-container/30 backdrop-blur-md text-tertiary px-3 py-1 rounded-full font-label-sm text-label-sm border border-tertiary/30">MSX2+</span>
+</div>
+<div class="p-8 flex flex-col flex-1">
+<h3 class="font-headline-lg text-headline-lg text-on-surface mb-4">MSX Turbo R</h3>
+<div class="space-y-3 mb-8">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline text-sm">calendar_today</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Ano: <span class="text-on-surface font-bold">1990</span></span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline text-sm">precision_manufacturing</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Fabricante: <span class="text-on-surface font-bold text-tertiary">Panasonic</span></span>
+</div>
+</div>
+<div class="mt-auto">
+<a class="flex items-center justify-center gap-2 w-full py-4 border border-outline-variant/30 rounded-xl text-on-surface hover:bg-white/10 hover:border-white/40 transition-all font-title-md group/btn" href="#">
+                            Ver Detalhes
+                            <span class="material-symbols-outlined text-sm group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Academic Note Section (Extra for Layout Density) -->
+<section class="mt-20 glass-card p-12 rounded-[2rem] border-primary/20 flex flex-col md:flex-row items-center gap-12">
+<div class="flex-1">
+<h2 class="font-headline-lg text-headline-lg mb-4 text-primary">Preservação Digital</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+                    Este projeto acadêmico visa catalogar e detalhar as especificações técnicas de máquinas que foram fundamentais para a democratização da informática no Brasil e no mundo. O MSX não foi apenas um padrão de hardware, mas um movimento cultural que uniu entretenimento e produtividade.
+                </p>
+</div>
+<div class="w-full md:w-1/3 aspect-square glass-card rounded-2xl flex items-center justify-center p-8 bg-gradient-to-br from-primary/10 to-secondary/10">
+<div class="text-center">
+<span class="material-symbols-outlined text-6xl text-primary mb-4" style="font-variation-settings: 'FILL' 1;">history_edu</span>
+<p class="font-label-sm text-label-sm text-on-surface uppercase tracking-widest">Projeto Acadêmico 2026</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest/80 backdrop-blur-md border-t border-outline-variant/10 w-full py-12 mt-20">
+<div class="flex flex-col items-center justify-center gap-6 text-center px-margin-mobile">
+<div class="flex items-center gap-2 opacity-80">
+<span class="material-symbols-outlined text-secondary">database</span>
+<span class="font-title-md text-title-md text-on-surface">Museu Virtual do Hardware</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant max-w-lg">
+                © 2026 Museu Virtual do Hardware - Projeto Acadêmico. <br class="md:hidden"/> Desenvolvido para fins educacionais e preservação histórica.
+            </p>
+<div class="flex gap-8">
+<a class="text-on-surface-variant hover:text-primary transition-all hover:underline decoration-secondary underline-offset-4 font-label-sm text-label-sm" href="#">Sobre</a>
+<a class="text-on-surface-variant hover:text-primary transition-all hover:underline decoration-secondary underline-offset-4 font-label-sm text-label-sm" href="#">Termos</a>
+<a class="text-on-surface-variant hover:text-primary transition-all hover:underline decoration-secondary underline-offset-4 font-label-sm text-label-sm" href="#">Privacidade</a>
+<a class="text-on-surface-variant hover:text-primary transition-all hover:underline decoration-secondary underline-offset-4 font-label-sm text-label-sm" href="#">Github</a>
+</div>
+</div>
 </footer>
-
-<script src="script.js"></script>
-</body>
-</html>
+<script>
+        // Smooth hover effect for cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body></html>
