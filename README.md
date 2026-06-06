@@ -293,3 +293,58 @@ O arquivo `src/main/resources/import.sql` insere dados de exemplo, incluindo:
 ## Resumo
 
 Este projeto foi estruturado com Spring Boot seguindo MVC em camadas. A API REST fica responsavel pela comunicacao com o frontend, a camada de service concentra as regras de negocio, os repositories acessam o MySQL e as models representam o dominio do museu virtual.
+
+## Como contribuir
+
+Contribuicoes sao bem-vindas! Passos rapidos:
+
+1. Fork no GitHub e clone o seu fork localmente.
+2. Crie uma branch com nome descritivo: `feature/minha-mudanca` ou `fix/corrige-xyz`.
+3. Rode os testes localmente: no Windows `mvnw.cmd test`.
+4. Faça commits pequenos e claros; escreva mensagens em portugues ou ingles claras.
+5. Abra um Pull Request no repositório original descrevendo a mudanca.
+
+Boas praticas:
+
+- Atualize `src/main/resources/import.sql` se precisar incluir seeds.
+- Se adicionar imagens, prefira colocá-las em `src/main/resources/static/images/` e referenciar via URL relativa.
+- Execute `mvnw.cmd test` antes de abrir o PR e adicione testes quando aplicavel.
+
+## Quick start (desenvolvimento)
+
+1. Configurar banco (exemplo Windows + MySQL):
+
+   mysql -u root -p < "C:\\Users\\User\\Documents\\JC\\Projetos\\MVH\\mysql-setup.sql"
+
+2. Importar dados iniciais:
+
+   mysql -u root -p museu_virtual_hardware < "C:\\Users\\User\\Documents\\JC\\Projetos\\MVH\\src\\main\\resources\\import.sql"
+
+3. Executar a aplicacao (Windows):
+
+   mvnw.cmd spring-boot:run
+
+Apos subir, acessar http://localhost:8080
+
+## Testes
+
+Para rodar todos os testes (Windows):
+
+   mvnw.cmd test
+
+No ambiente onde executei (local de desenvolvimento), os testes automatizados executam com sucesso. Se algum teste falhar, verifique as mensagens em `target/surefire-reports/`.
+
+## Relatar problemas
+
+- Use a pagina de Issues do repositório no GitHub para relatar bugs ou sugerir melhorias.
+- Inclua passos para reproduzir, logs relevantes e ambiente (SO, Java, MySQL).
+
+## Estilo de codigo
+
+- Java 17, siga convencoes do Google Java Style ou convencoes da equipe.
+- Preferir nomes claros para variaveis e metodos; mantenha controllers finos e regras no service.
+
+## Contato
+
+Se precisar de ajuda ou quiser que eu execute checks adicionais (baixar imagens, criar migrations Flyway, criar scripts .bat), diga qual tarefa prefere e eu executo.
+

@@ -49,5 +49,13 @@ INSERT INTO DOCUMENTOS (titulo, url, FK_id_equipamento) VALUES ('Manual Hotbit H
 -- imagem local para Hotbit
 INSERT INTO IMAGENS (formato, tamanho, resolucao, url, FK_id_equipamento) VALUES ('.jpg', '45KB', 'unknown', '/images/hotbit_hb8000.jpg', 2);
 
+-- 8. Cadastrando um equipamento adicional adicionado pelo usuário
+-- Adicionando fabricante Sony (id 3)
+INSERT INTO FABRICANTES (id_fabricante, nome, pais) VALUES (3, 'Sony', 'Japão');
+INSERT INTO EQUIPAMENTOS (id_equipamento, modelo, ano, geracao, FK_id_fabricante) VALUES (3, 'msx2_body_hitbit_hb-t7', 1987, 'MSX2', 3);
+-- Imagem remota fornecida pelo usuário
+INSERT INTO IMAGENS (formato, tamanho, resolucao, url, FK_id_equipamento) VALUES ('.jpg.webp', 'unknown', 'unknown', 'https://cdn.suruga-ya.com/database/pics_webp/game/123011357.jpg.webp', 3);
+-- Curiosidade sobre o equipamento
+INSERT INTO CURIOSIDADES (descricao, FK_id_equipamento) VALUES ('Conhecido como "Communication Terminal", o MSX2 Hit Bit HB-T7 incluía um modem embutido de 300/1200 bps e software de agenda e discagem automática.', 3);
 -- Se desejar, adicione entradas para outros equipamentos aqui.
 
