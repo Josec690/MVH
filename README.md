@@ -4,7 +4,7 @@ Projeto acadêmico da FATEC - Faculdade de Tecnologia da Zona Leste 📚 que imp
 
 A aplicacao combina uma API REST em Spring Boot com uma interface web simples em HTML, CSS e JavaScript vanilla.
 
-## Tecnologias utilizadas
+## Tecnologias utilizadas ⚙️
 
 - Java 17
 - Spring Boot 4.0.6
@@ -16,7 +16,7 @@ A aplicacao combina uma API REST em Spring Boot com uma interface web simples em
 - Lombok
 - HTML5, CSS3 e JavaScript
 
-## Padrao de projeto utilizado
+## Padrao de projeto utilizado 🏗️
 
 O projeto utiliza o padrao MVC em camadas, comum em aplicacoes Spring Boot.
 
@@ -121,7 +121,7 @@ Contem as entidades principais do sistema:
 - `Fonte`
 - `Emulador`
 
-## Funcionalidades
+## Funcionalidades ✨
 
 - Cadastro e consulta de equipamentos MSX.
 - Cadastro e consulta de fabricantes.
@@ -212,7 +212,7 @@ PUT    /api/emuladores/{id}
 DELETE /api/emuladores/{id}
 ```
 
-## Como executar
+## Como executar 🛠️
 
 ### Pre-requisitos
 
@@ -255,7 +255,7 @@ Depois de iniciar, acesse:
 http://localhost:8080
 ```
 
-## Testes
+## Testes ✅
 
 Para executar os testes:
 
@@ -265,7 +265,7 @@ mvnw.cmd test
 
 Os testes usam uma configuracao propria em `src/test/resources/application.properties`, apontando para o banco `museu_virtual_hardware_test`.
 
-## Frontend
+## Frontend 🎨
 
 O frontend fica em:
 
@@ -281,7 +281,7 @@ Arquivos principais:
 
 Como os arquivos estao dentro de `resources/static`, o Spring Boot serve a interface automaticamente na raiz da aplicacao.
 
-## Dados iniciais
+## Dados iniciais 🗂️
 
 O arquivo `src/main/resources/import.sql` insere dados de exemplo, incluindo:
 
@@ -290,11 +290,11 @@ O arquivo `src/main/resources/import.sql` insere dados de exemplo, incluindo:
 - Imagem, documento, curiosidade e fonte relacionados a equipamento.
 - Emuladores fMSX e BlueMSX.
 
-## Resumo
+## Resumo 📌
 
 Este projeto foi estruturado com Spring Boot seguindo MVC em camadas. A API REST fica responsavel pela comunicacao com o frontend, a camada de service concentra as regras de negocio, os repositories acessam o MySQL e as models representam o dominio do museu virtual.
 
-## Como contribuir
+## Como contribuir 💡
 
 Contribuicoes sao bem-vindas! 🙌 Passos rapidos:
 
@@ -326,7 +326,7 @@ Boas praticas:
 
 Apos subir, acessar http://localhost:8080
 
-## Testes
+## Testes ✅
 
 Para rodar todos os testes (Windows):
 
@@ -334,7 +334,7 @@ Para rodar todos os testes (Windows):
 
 No ambiente onde executei (local de desenvolvimento), os testes automatizados executam com sucesso. Se algum teste falhar, verifique as mensagens em `target/surefire-reports/`.
 
-## Relatar problemas
+## Relatar problemas 🐞
 
 - Use a pagina de Issues do repositório no GitHub para relatar bugs ou sugerir melhorias.
 - Inclua passos para reproduzir, logs relevantes e ambiente (SO, Java, MySQL).
@@ -343,8 +343,4 @@ No ambiente onde executei (local de desenvolvimento), os testes automatizados ex
 
 - Java 17, siga convencoes do Google Java Style ou convencoes da equipe.
 - Preferir nomes claros para variaveis e metodos; mantenha controllers finos e regras no service.
-
-## Contato
-
-Se precisar de ajuda ou quiser que eu execute checks adicionais (baixar imagens, criar migrations Flyway, criar scripts .bat), diga qual tarefa prefere e eu executo.
 
