@@ -52,7 +52,7 @@ Repository
 Banco de Dados MySQL
 ```
 
-Esse formato facilita manutencao, testes e evolucao do projeto, porque cada camada tem uma responsabilidade clara.
+Esse formato facilita manutencao, testes e evolucao do projeto, porque cada camada tem uma responsabilidade clara
 
 ## Estrutura do projeto
 
