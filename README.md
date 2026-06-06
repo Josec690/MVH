@@ -1,6 +1,6 @@
-# Museu Virtual do Hardware - MSX
+# Museu Virtual do Hardware - MSX 📚💻
 
-Projeto academico desenvolvido como um museu virtual para catalogar e apresentar informacoes sobre hardwares classicos, com foco inicial em equipamentos da linha MSX. Este projeto foi realizado como Trabalho de Estágio na FATEC - Faculdade de Tecnologia da Zona Leste.
+Projeto academico desenvolvido como um museu virtual para catalogar e apresentar informacoes sobre hardwares classicos, com foco inicial em equipamentos da linha MSX. Este projeto é um Projeto Acadêmico na FATEC - Faculdade de Tecnologia da Zona Leste 📚.
 
 A aplicacao combina uma API REST em Spring Boot com uma interface web simples em HTML, CSS e JavaScript vanilla.
 
@@ -296,7 +296,7 @@ Este projeto foi estruturado com Spring Boot seguindo MVC em camadas. A API REST
 
 ## Como contribuir
 
-Contribuicoes sao bem-vindas! Passos rapidos:
+Contribuicoes sao bem-vindas! 🙌 Passos rapidos:
 
 1. Fork no GitHub e clone o seu fork localmente.
 2. Crie uma branch com nome descritivo: `feature/minha-mudanca` ou `fix/corrige-xyz`.
@@ -310,7 +310,7 @@ Boas praticas:
 - Se adicionar imagens, prefira colocá-las em `src/main/resources/static/images/` e referenciar via URL relativa.
 - Execute `mvnw.cmd test` antes de abrir o PR e adicione testes quando aplicavel.
 
-## Quick start (desenvolvimento)
+## Quick start (desenvolvimento) 🚀
 
 1. Configurar banco (exemplo Windows + MySQL):
 
