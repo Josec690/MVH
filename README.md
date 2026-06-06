@@ -1,6 +1,6 @@
 # Museu Virtual do Hardware - MSX
 
-Projeto academico desenvolvido como um museu virtual para catalogar e apresentar informacoes sobre hardwares classicos, com foco inicial em equipamentos da linha MSX.
+Projeto academico desenvolvido como um museu virtual para catalogar e apresentar informacoes sobre hardwares classicos, com foco inicial em equipamentos da linha MSX. Este projeto foi realizado como Trabalho de Estágio na FATEC - Faculdade de Tecnologia da Zona Leste.
 
 A aplicacao combina uma API REST em Spring Boot com uma interface web simples em HTML, CSS e JavaScript vanilla.
 
