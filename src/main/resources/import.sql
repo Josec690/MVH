@@ -42,3 +42,12 @@ INSERT INTO EMULADORES (nome_emu, versao, FK_id_fabricante) VALUES ('BlueMSX', '
 -- Added by Copilot: image for Expert XP-800
 INSERT INTO IMAGENS (formato, tamanho, resolucao, url, FK_id_equipamento) VALUES ('.jpg', '10,1KB', 'unknown', '/images/MSX-Expert-XP800.jpg', 1);
 
+-- Curiosidades, Fontes e Documentos para Hotbit HB-8000 (equipamento id 2)
+INSERT INTO CURIOSIDADES (descricao, FK_id_equipamento) VALUES ('O Hotbit foi conhecido por sua compatibilidade com muitos softwares populares da época e por sua presença no mercado brasileiro.', 2);
+INSERT INTO FONTES (nome_site, url_original, FK_id_equipamento) VALUES ('Revista Micro Sistemas', 'https://revistamicrosistemas.exemplo/hotbit', 2);
+INSERT INTO DOCUMENTOS (titulo, url, FK_id_equipamento) VALUES ('Manual Hotbit HB-8000', '/documents/hotbit_manual.pdf', 2);
+-- imagem local para Hotbit
+INSERT INTO IMAGENS (formato, tamanho, resolucao, url, FK_id_equipamento) VALUES ('.jpg', '45KB', 'unknown', '/images/hotbit_hb8000.jpg', 2);
+
+-- Se desejar, adicione entradas para outros equipamentos aqui.
+
